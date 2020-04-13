@@ -1,3 +1,7 @@
 venv/*
-data/cropped/*
-data/cropped/LandJ_raw_files/*
+data/**/*.jpg
+data/**/*.JPG
+data/**/*.json
+data/**/*.vott
+
+
