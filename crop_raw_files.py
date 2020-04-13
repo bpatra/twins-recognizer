@@ -20,7 +20,8 @@ def process():
             data = json.load(f)   
             image_file = data['asset']['path']
             # url encoded file paths...
-            image_file_decoded = urllib.parse.unquote(image_file)
+            image_file2 = image_file[len("file:"):]
+            image_file_decoded = urllib.parse.unquote(image_file2)
         
         if os.path.isfile(image_file_decoded):
             crop_file(image_file_decoded, data)
