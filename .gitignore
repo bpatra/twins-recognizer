@@ -1,0 +1,3 @@
+venv/*
+data/cropped/*
+data/cropped/LandJ_raw_files/*
