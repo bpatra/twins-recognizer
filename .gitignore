@@ -3,5 +3,6 @@ data/**/*.jpg
 data/**/*.JPG
 data/**/*.json
 data/**/*.vott
+.ipynb_checkpoints/*
 
 
