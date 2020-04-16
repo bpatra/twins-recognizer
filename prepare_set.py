@@ -6,6 +6,9 @@ import os
 import numpy as np
 from PIL import Image, ImageDraw
 
+VAL_SIZE=150
+TEST_SIZE=100
+
 def get_folder_name(add_fake, folder):
     folder_name="sets_faked" if add_fake else "sets"
     if folder == "train":   
@@ -36,9 +39,6 @@ def process_files(add_fake):
     source_dir_L = "./data/cropped/L/"
     source_dir_J = "./data/cropped/J/"
 
-    val_size=150
-    test_size=150
-
     types = ('*.jpg', '*.JPG') # the tuple of file typesfiles_grabbed = []
     all_l_files=[]
     all_j_files=[]
@@ -53,17 +53,16 @@ def process_files(add_fake):
     kept_j = random.shuffle(all_j_files[0:kept_length])
     kept_l = random.shuffle(all_j_files[0:kept_length])
 
-    list = [("train",0, kept_length - val_size - test_size), 
-            ("validation",kept_length - val_size - test_size, kept_length - test_size ),
-            ("test",kept_length - test_size, kept_length )]
+    list = [("train",0, kept_length - VAL_SIZE - TEST_SIZE), 
+            ("validation",kept_length - VAL_SIZE - TEST_SIZE, kept_length - TEST_SIZE ),
+            ("test",kept_length - TEST_SIZE, kept_length )]
 
     for tuple in list:
         folder_name = tuple[0]
         start = tuple[1]
         end = tuple[2]
-        print(f"processing files for {folder_name}")
-        for i in range(0, kept_length - val_size - test_size):
-            print(f"{i}/{kept_length - val_size - test_size} done!")
+        print(f"processing files for {folder_name} - {start} / {end}")
+        for i in range(start, end):
             normal_folder = get_folder_name(False, folder_name)
             shutil.copy(all_j_files[i], normal_folder + "J/")
             shutil.copy(all_l_files[i], normal_folder + "L/")
