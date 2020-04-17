@@ -23,8 +23,8 @@ def get_folder_name(add_fake, folder):
 def create_faked_image(is_rectangle, source_img, dest_img):
     img = Image.open(source_img)
     w, h= img.size
-    w2 = random.randrange(10, math.floor(w / 2))
-    h2 = random.randrange(10, math.floor(h / 2))
+    w2 = random.randrange(math.floor(w / 4), math.floor(w / 2))
+    h2 = random.randrange(math.floor(h / 4), math.floor(h / 2))
     x=random.randrange(0, math.floor(w / 2))
     y=random.randrange(0, math.floor(h / 2))
     bbox =[x, y, x+w2, y + h2]
@@ -63,9 +63,9 @@ def process_files(add_fake):
         end = tuple[2]
         print(f"processing files for {folder_name} - {start} / {end}")
         for i in range(start, end):
-            normal_folder = get_folder_name(False, folder_name)
-            shutil.copy(all_j_files[i], normal_folder + "J/")
-            shutil.copy(all_l_files[i], normal_folder + "L/")
+            # normal_folder = get_folder_name(False, folder_name)
+            # shutil.copy(all_j_files[i], normal_folder + "J/")
+            # shutil.copy(all_l_files[i], normal_folder + "L/")
             if add_fake: # Create fake sets with shapes
                 fake_folder = get_folder_name(True, folder_name)
                 create_faked_image(True, all_j_files[i], fake_folder + "J/" + os.path.basename(all_j_files[i]))
