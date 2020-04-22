@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 from time import time
 from keras import optimizers
+import seaborn as sn
+import pandas as pd
 
 def print_image_from_gen(img_tensor):
     print(img_tensor.shape)
@@ -60,3 +62,11 @@ def view_prediction(model, batch):
         print(f"Machine predicts {getName(results[i])} when it's {getName(batch[1][i])}")
 
         print_image_from_gen(batch1[i])
+
+def plot_confusion_matrix(confusion_matrix, labels):
+    df_cm = pd.DataFrame(confusion_matrix, 
+            index = [i for i in labels],
+            columns = [i for i in labels])
+    figure = plt.figure(figsize = (5,3))
+    ax = sn.heatmap(df_cm, annot=True, cmap="Oranges")
+    ax.set(xlabel='Predicted', ylabel='Actual')
