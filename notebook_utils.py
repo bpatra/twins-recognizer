@@ -1,19 +1,21 @@
 import matplotlib.pyplot as plt
 from time import time
-from keras import optimizers
 import seaborn as sn
 import pandas as pd
 
+def next_skip(n, iterator):
+    for i in range(0, n):
+        next(iterator)
+        continue
+    return next(iterator)
+
 def print_image_from_gen(img_tensor):
-    print(img_tensor.shape)
     plt.imshow(img_tensor)
     plt.show()
     
 def print_image_from_path(image_path):
     img = image.load_img(image_path, target_size=(150, 150))
-    print(type(img))
     img_tensor = image.img_to_array(img)
-    print(img_tensor.shape)
     img_tensor /= 255.0
 
     plt.imshow(img_tensor)
@@ -70,3 +72,4 @@ def plot_confusion_matrix(confusion_matrix, labels):
     figure = plt.figure(figsize = (5,3))
     ax = sn.heatmap(df_cm, annot=True, cmap="Oranges")
     ax.set(xlabel='Predicted', ylabel='Actual')
+

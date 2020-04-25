@@ -1,16 +1,26 @@
+from keras import models
+import matplotlib.pyplot as plt
+import numpy as np
 
-def visualize_on_tensor(model, img_tensor):
-    layer_outputs = [layer.output for layer in model.layers[:8]]
-    activation_model = models.Model(inputs=model.input, outputs=layer_outputs)
 
+def get_activation_model(model, depth):
+    layer_outputs = [layer.output for layer in model.layers[:depth]]
+    return models.Model(inputs=model.input, outputs=layer_outputs)
+
+def get_activations_tensors(model, depth, img_tensor):
+    activation_model = get_activation_model(model, depth=8)
     activations = activation_model.predict(img_tensor)
-    print(activations[0].shape)
+    return activations
 
-    plt.matshow(activations[4][0, :, :, 3], cmap='viridis')
+def visualize_on_tensor(model, depth, layer_index, channel_index, img_tensor):
+    activations = get_activations_tensors(model, depth, img_tensor)
+    plt.matshow(activations[layer_index][0, :, :, channel_index], cmap='viridis')
+    
+def visualize_layer(model, depth, img_tensor):
+    activations = get_activations_tensors(model, depth, img_tensor)
 
-def visualize_layer(model):
     layer_names = []
-    for layer in model.layers[:8]:
+    for layer in model.layers[:depth]:
         layer_names.append(layer.name)
         
     images_per_row = 16
@@ -28,7 +38,9 @@ def visualize_layer(model):
                 channel_image = layer_activation[0, :, :, col * images_per_row + row]
                 
                 channel_image -= channel_image.mean()
-                channel_image /= channel_image.std()
+                std = channel_image.std()
+                if std > 0:
+                    channel_image /= channel_image.std()
                 channel_image *= 64
                 channel_image += 128
                 channel_image = np.clip(channel_image, 0, 255).astype('uint8')
