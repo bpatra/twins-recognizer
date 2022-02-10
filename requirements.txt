@@ -77,7 +77,7 @@ seaborn==0.10.0
 Send2Trash==1.5.0
 six==1.14.0
 tensorboard==1.15.0
-tensorflow==1.15.0
+tensorflow==2.5.3
 tensorflow-estimator==1.15.1
 tensorflow-gpu==1.15.0
 termcolor==1.1.0
